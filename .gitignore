@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+.env
+
+# Flask/Data
+uploads/
+output/
+*.log
+*.sqlite
+
+# LaTeX
+*.aux
+*.log
+*.pdf
+*.toc
+*.out
+*.gz
+*.fdb_latexmk
+*.fls
+
+# IDE
+.vscode/
+.idea/
+.DS_Store

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大物实验报告生成器</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-icon">📊</div>
+                <h1>物理实验报告</h1>
+                <p>自动化生成器 v2.0</p>
+            </div>
+
+            <nav class="nav-steps">
+                <div class="step active" data-step="1">
+                    <span class="step-num">1</span>
+                    <span class="step-text">基本信息</span>
+                </div>
+                <div class="step" data-step="2">
+                    <span class="step-num">2</span>
+                    <span class="step-text">上传文件</span>
+                </div>
+                <div class="step" data-step="3">
+                    <span class="step-num">3</span>
+                    <span class="step-text">预览与下载</span>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-outline full-width" onclick="openModal('historyModal')"
+                    style="margin-bottom: 8px;">
+                    <span class="btn-icon">📚</span>
+                    历史记录
+                </button>
+                <button class="btn btn-outline full-width" onclick="openModal('settingsModal')"
+                    style="margin-bottom: 12px;">
+                    <span class="btn-icon">⚙️</span>
+                    API 设置
+                </button>
+                <div class="latex-status" id="latexStatus">
+                    <span class="status-indicator checking"></span>
+                    <span>检查 LaTeX...</span>
+                </div>
+                <div class="api-status" id="apiStatus" style="margin-top: 8px;">
+                    <span class="status-indicator not-installed"></span>
+                    <span>API 未配置</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 步骤 1: 基本信息 -->
+            <section class="step-content active" id="step1">
+                <div class="section-header">
+                    <h2>📝 填写基本信息</h2>
+                    <p>请填写学生信息和实验信息，这些将显示在报告表头。</p>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-card">
+                        <h3>👤 学生信息</h3>
+                        <div class="form-group">
+                            <label for="name">姓名</label>
+                            <input type="text" id="name" value="{{ default_info.name }}" placeholder="请输入姓名">
+                        </div>
+                        <div class="form-group">
+                            <label for="studentId">学号</label>
+                            <input type="text" id="studentId" value="{{ default_info.student_id }}" placeholder="请输入学号">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="classNum">分班</label>
+                                <input type="text" id="classNum" value="{{ default_info.class_num }}"
+                                    placeholder="如: 1">
+                            </div>
+                            <div class="form-group">
+                                <label for="groupNum">分组</label>
+                                <input type="text" id="groupNum" value="{{ default_info.group_num }}"
+                                    placeholder="如: 07">
+                            </div>
+                            <div class="form-group">
+                                <label for="seatNum">座号</label>
+                                <input type="text" id="seatNum" value="{{ default_info.seat_num }}" placeholder="如: 2">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-card">
+                        <h3>🔬 实验信息</h3>
+                        <div class="form-group">
+                            <label for="experimentName">实验名称</label>
+                            <input type="text" id="experimentName" placeholder="如: 光电探测-硅光电池特性测试">
+                        </div>
+                        <div class="form-group">
+                            <label for="supervisor">指导教师</label>
+                            <input type="text" id="supervisor" placeholder="请输入指导教师姓名">
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group flex-2">
+                                <label for="date">实验日期</label>
+                                <input type="date" id="date">
+                            </div>
+                            <div class="form-group flex-3">
+                                <label for="room">实验地点</label>
+                                <input type="text" id="room" placeholder="如: 西实验楼 206">
+                            </div>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <label>
+                                <input type="checkbox" id="isMakeup">
+                                <span class="checkmark"></span>
+                                调课/补课
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-card full-width">
+                    <h3>📌 额外要求（可选）</h3>
+                    <div class="form-group">
+                        <textarea id="additionalRequirements" rows="3"
+                            placeholder="在这里输入对报告生成的特殊要求，例如：&#10;- 需要详细说明误差分析&#10;- 思考题需要深入解答&#10;- 数据表格需要包含不确定度"></textarea>
+                    </div>
+                </div>
+
+                <div class="step-actions">
+                    <button class="btn btn-primary" onclick="goToStep(2)">
+                        下一步：上传文件
+                        <span class="btn-icon">→</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- 步骤 2: 上传文件 -->
+            <section class="step-content" id="step2">
+                <div class="section-header">
+                    <h2>📁 上传实验材料</h2>
+                    <p>上传实验指导书和数据记录表照片，AI 将据此生成完整报告（含数据表格和图表）。</p>
+                </div>
+
+                <div class="upload-grid">
+                    <div class="upload-card">
+                        <div class="upload-icon">📚</div>
+                        <h3>实验指导书</h3>
+                        <p>上传 PDF 格式的实验指导书（自动提取文本）</p>
+                        <div class="upload-zone" id="guideUpload" data-type="guide">
+                            <input type="file" accept=".pdf" multiple hidden>
+                            <div class="upload-content">
+                                <span class="upload-plus">+</span>
+                                <span>点击或拖拽上传</span>
+                            </div>
+                        </div>
+                        <div class="file-list" id="guideFiles"></div>
+                    </div>
+
+                    <div class="upload-card">
+                        <div class="upload-icon">📋</div>
+                        <h3>数据记录表</h3>
+                        <p>上传数据记录表的照片（支持多张）</p>
+                        <div class="upload-zone" id="dataUpload" data-type="data_sheet">
+                            <input type="file" accept="image/*" multiple hidden>
+                            <div class="upload-content">
+                                <span class="upload-plus">+</span>
+                                <span>点击或拖拽上传</span>
+                            </div>
+                        </div>
+                        <div class="file-list" id="dataFiles"></div>
+                    </div>
+
+                    <div class="upload-card">
+                        <div class="upload-icon">📝</div>
+                        <h3>预习报告</h3>
+                        <p>上传预习报告的照片</p>
+                        <div class="upload-zone" id="previewUpload" data-type="preview_report">
+                            <input type="file" accept="image/*" multiple hidden>
+                            <div class="upload-content">
+                                <span class="upload-plus">+</span>
+                                <span>点击或拖拽上传</span>
+                            </div>
+                        </div>
+                        <div class="file-list" id="previewFiles"></div>
+                    </div>
+                </div>
+
+                <div class="info-box"
+                    style="background: rgba(99, 102, 241, 0.1); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 24px;">
+                    <h4 style="margin: 0 0 8px 0; color: #818cf8;">🚀 AI 自动化工作流程：</h4>
+                    <ul style="margin: 0; padding-left: 20px; color: #94a3b8; font-size: 0.9rem;">
+                        <li><strong>PDF 文本提取</strong> - 自动从实验指导书中提取内容</li>
+                        <li><strong>图像识别</strong> - 识别数据记录表照片中的实验数据</li>
+                        <li><strong>数据表格生成</strong> - 创建格式化的 LaTeX 表格</li>
+                        <li><strong>Python 自动画图</strong> - 生成并执行代码绘制分析图表</li>
+                        <li><strong>完整报告编写</strong> - 包含目的、原理、步骤、数据处理、思考题等</li>
+                    </ul>
+                </div>
+
+                <div class="step-actions">
+                    <button class="btn btn-secondary" onclick="goToStep(1)">
+                        <span class="btn-icon">←</span>
+                        上一步
+                    </button>
+                    <button class="btn btn-primary" id="generateBtn" onclick="generateReport()">
+                        <span class="btn-icon">⚡</span>
+                        生成报告
+                    </button>
+                </div>
+            </section>
+
+            <!-- 步骤 3: 预览与下载 -->
+            <section class="step-content" id="step3">
+                <div class="section-header">
+                    <h2>👁️ 预览与下载</h2>
+                    <p>预览生成的报告，满意后可以下载 PDF 或 LaTeX 源码。</p>
+                </div>
+
+                <div class="preview-container">
+                    <div class="preview-main">
+                        <div class="pdf-viewer" id="pdfViewer">
+                            <div class="pdf-placeholder">
+                                <span class="placeholder-icon">📄</span>
+                                <p>生成报告后在此预览 PDF</p>
+                            </div>
+                            <iframe id="pdfFrame" style="display: none;"></iframe>
+                        </div>
+                    </div>
+
+                    <div class="preview-sidebar">
+                        <div class="action-card">
+                            <h3>📥 下载报告</h3>
+                            <button class="btn btn-primary full-width" id="downloadPdfBtn" disabled
+                                onclick="downloadPdf()">
+                                <span class="btn-icon">📄</span>
+                                下载 PDF
+                            </button>
+                            <button class="btn btn-secondary full-width" id="downloadTexBtn" disabled
+                                onclick="downloadTex()">
+                                <span class="btn-icon">📝</span>
+                                下载 LaTeX 源码
+                            </button>
+                        </div>
+
+                        <div class="action-card">
+                            <h3>✏️ AI 修改报告</h3>
+                            <textarea id="modificationInput" rows="4"
+                                placeholder="描述您需要的修改，例如：&#10;- 修改表格格式&#10;- 补充思考题答案&#10;- 添加误差分析"></textarea>
+                            <button class="btn btn-secondary full-width" id="modifyBtn" disabled
+                                onclick="modifyReport()">
+                                <span class="btn-icon">🔄</span>
+                                应用修改
+                            </button>
+                        </div>
+
+                        <div class="action-card">
+                            <h3>🔧 高级选项</h3>
+                            <button class="btn btn-outline full-width" onclick="editLatex()">
+                                <span class="btn-icon">📝</span>
+                                编辑 LaTeX 代码
+                            </button>
+                            <button class="btn btn-outline full-width" onclick="goToStep(1)">
+                                <span class="btn-icon">🔄</span>
+                                重新开始
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- API 设置模态框 -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚙️ API 设置</h3>
+                <button class="close-btn" onclick="closeModal('settingsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="apiUrl">API URL</label>
+                    <input type="text" id="apiUrl" placeholder="https://api.openai.com/v1/chat/completions">
+                    <small style="color: var(--text-muted);">支持 OpenAI 兼容格式的 API（如 OpenAI、Azure、本地部署等）</small>
+                </div>
+                <div class="form-group">
+                    <label for="apiKey">API Key</label>
+                    <input type="password" id="apiKey" placeholder="sk-...">
+                </div>
+                <div class="form-group">
+                    <label for="apiModel">模型</label>
+                    <input type="text" id="apiModel" value="gpt-4o" placeholder="gpt-4o">
+                    <small style="color: var(--text-muted);">推荐使用支持视觉的模型（如 gpt-4o、gpt-4-vision-preview）以识别图片</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('settingsModal')">取消</button>
+                <button class="btn btn-primary" onclick="saveApiSettings()">保存设置</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 历史记录模态框 -->
+    <div class="modal" id="historyModal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>📚 历史记录</h3>
+                <button class="close-btn" onclick="closeModal('historyModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="historyList" style="min-height: 200px;">
+                    <p style="color: var(--text-muted); text-align: center; padding: 40px;">
+                        加载中...
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('historyModal')">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LaTeX 编辑器模态框 -->
+    <div class="modal" id="texModal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>📝 编辑 LaTeX 代码</h3>
+                <button class="close-btn" onclick="closeModal('texModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <textarea id="texEditor" spellcheck="false"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('texModal')">取消</button>
+                <button class="btn btn-primary" onclick="updateTex()">保存并重新编译</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 加载指示器 -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p id="loadingText">正在生成报告...</p>
+            <p id="loadingSubtext" style="font-size: 0.875rem; color: var(--text-muted); margin-top: 8px;"></p>
+        </div>
+    </div>
+
+    <!-- Toast 消息 -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

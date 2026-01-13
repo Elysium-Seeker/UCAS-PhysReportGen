@@ -1,0 +1,161 @@
+% 本模板根据中国科学院大学本科生公共必修课程《基础物理实验》Word模板格式编写
+% 本项目已被列为课程推荐使用模板. 
+% 本模板由Shing-Ho Lin和Jun-Xiong Ji于2022年9月共同完成, 旨在方便LaTeX原教旨主义者和被Word迫害者写实验报告, 避免Word文档因插入过多图与公式造成卡顿. 
+% 适配报告生成器自动化版本
+
+\documentclass[11pt]{article}
+
+\usepackage[a4paper]{geometry}
+\geometry{left=2.0cm,right=2.0cm,top=2.5cm,bottom=2.5cm}
+
+\usepackage{ctex} % 支持中文的LaTeX宏包
+\usepackage{float} % 支持 [H] 强制位置
+\usepackage{amsmath,amsfonts,graphicx,subfigure,amssymb,bm,amsthm,mathrsfs,mathtools,breqn} % 数学公式和符号的宏包集合
+\usepackage{algorithm,algorithmicx} % 算法和伪代码的宏包
+\usepackage[noend]{algpseudocode} % 算法和伪代码的宏包
+\usepackage{fancyhdr} % 自定义页眉页脚的宏包
+\usepackage[framemethod=TikZ]{mdframed} % 创建带边框的框架的宏包
+\usepackage{fontspec} % 字体设置的宏包
+\usepackage{adjustbox} % 调整盒子大小的宏包
+\usepackage{fontsize} % 设置字体大小的宏包
+\usepackage{tikz,xcolor} % 绘制图形和使用颜色的宏包
+\usepackage{multicol} % 多栏排版的宏包
+\usepackage{multirow} % 表格中合并单元格的宏包
+\usepackage{pdfpages} % 插入PDF文件的宏包
+\RequirePackage{listings} % 在文档中插入源代码的宏包
+\RequirePackage{xcolor} % 定义和使用颜色的宏包
+\usepackage{wrapfig} % 文字绕排图片的宏包
+\usepackage{bigstrut,multirow,rotating} % 支持在表格中使用特殊命令的宏包
+\usepackage{booktabs} % 创建美观的表格的宏包
+\usepackage{circuitikz} % 绘制电路图的宏包
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+\lstset{
+  frame=tb,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  framerule=1pt,
+  rulecolor=\color{gray!35},
+  backgroundcolor=\color{gray!5},
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3,
+}
+
+% 轻松引用, 可以用\cref{}指令直接引用, 自动加前缀. 
+\usepackage[capitalize]{cleveref}
+\Crefname{section}{Section}{Sections}
+\Crefname{table}{Table}{Tables}
+\crefname{table}{Table.}{Tabs.}
+
+\setmainfont{Palatino Linotype.ttf}[Path=./]
+\setCJKmainfont{SimSun.ttf}[
+    Path=./,
+    BoldFont=SimHei.ttf,
+    ItalicFont=Songti.ttf
+]
+\setCJKsansfont{SimHei.ttf}[Path=./]
+\setCJKmonofont{SimHei.ttf}[Path=./]
+\newCJKfontfamily\kaishu{Songti.ttf}[Path=./] % 兼容模板中的 \kaishu 或 \emph
+\punctstyle{kaiming}
+
+\renewcommand{\emph}[1]{{\kaishu#1}}
+
+%改这里可以修改实验报告表头的信息
+\newcommand{\experiName}{实验名称}
+\newcommand{\supervisor}{指导教师}
+\newcommand{\name}{姓名}
+\newcommand{\studentNum}{学号}
+\newcommand{\class}{1}
+\newcommand{\group}{01}
+\newcommand{\seat}{1}
+\newcommand{\dateYear}{2026}
+\newcommand{\dateMonth}{1}
+\newcommand{\dateDay}{1}
+\newcommand{\room}{实验室}
+\newcommand{\others}{$\square$}
+%% 如果是调课、补课, 改为: $\square$\hspace{-1em}$\surd$
+%% 否则, 请用: $\square$
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%若需在页眉部分加入内容, 可以在这里输入
+% \pagestyle{fancy}
+% \lhead{\kaishu 测试}
+% \chead{}
+% \rhead{}
+
+\begin{center}
+    \LARGE \bfseries 《\, 基\, 础\, 物\, 理\, 实\, 验\, 》\, 实\, 验\, 报\, 告
+\end{center}
+
+\begin{center}
+    \noindent \emph{实验名称}\underline{\makebox[25em][c]{\experiName}}
+    \emph{指导教师}\underline{\makebox[8em][c]{\supervisor}}\\
+    \emph{姓名}\underline{\makebox[6em][c]{\name}} 
+    % 如果名字比较长, 可以修改box的长度"6em"
+    \emph{学号}\underline{\makebox[10em][c]{\studentNum}}
+    \emph{分班分组及座号} \underline{\makebox[5em][c]{\class \ -\ \group \ -\ \seat }\emph{号}} （\emph{例}:\, 1\,-\,04\,-\,5\emph{号}）\\
+    \emph{实验日期} \underline{\makebox[3em][c]{\dateYear}}\emph{年}
+    \underline{\makebox[2em][c]{\dateMonth}}\emph{月}
+    \underline{\makebox[2em][c]{\dateDay}}\emph{日}
+    \emph{实验地点}\underline{{\makebox[10em][c]\room}}
+    \emph{调课/补课} \underline{\makebox[4em][c]{\others\ 是}}
+    \emph{成绩评定} \underline{\hspace{5em}}
+    {\noindent}
+    \rule[8pt]{17cm}{0.2em}
+\end{center}
+
+% BEGIN:content
+\section{实验目的}
+\begin{enumerate}
+    \item 请填写实验目的
+\end{enumerate}
+
+\section{实验器材}
+请填写实验器材
+
+\section{实验原理}
+请填写实验原理
+
+\section{实验步骤}
+\begin{enumerate}
+    \item 请填写实验步骤
+\end{enumerate}
+
+\section{实验结果与数据处理}
+请填写实验结果与数据处理
+
+\section{思考题}
+\begin{enumerate}
+    \item 思考题1
+    
+    答: 请填写答案
+\end{enumerate}
+
+\section{总结}
+请填写实验总结
+% END:content
+
+% BEGIN:appendix
+\section{附录}
+
+\subsection{预习报告照片}
+% 预习报告图片将在此插入
+
+\subsection{实验原始数据记录表照片}
+% 数据记录表图片将在此插入
+% END:appendix
+
+\end{document}
