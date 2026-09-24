@@ -1,0 +1,4 @@
+interface:
+  display_name: "UCAS 物理实验报告"
+  short_description: "根据实验名称与记录表照片，完成国科大物理实验数据处理、作图与报告"
+  default_prompt: "使用 $ucas-physics-report，根据这个实验名称和记录表照片生成 PDF 报告，并保留 LaTeX 源码和计算脚本。"

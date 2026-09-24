@@ -1,0 +1,203 @@
+[
+  {
+    "number": "01",
+    "id": "viscosity-millikan",
+    "title": "粘滞与密立根油滴",
+    "folder": "01_粘滞与密立根油滴",
+    "aliases": [
+      "粘滞",
+      "黏滞",
+      "粘滞系数",
+      "黏滞系数",
+      "密立根",
+      "密立根油滴",
+      "油滴",
+      "落球法"
+    ],
+    "recipe": "references/experiments/viscosity-millikan.md"
+  },
+  {
+    "number": "02",
+    "id": "electron-beam",
+    "title": "电子束",
+    "folder": "02_电子束",
+    "aliases": [
+      "电子束",
+      "弗兰克赫兹",
+      "弗兰克-赫兹",
+      "Franck-Hertz",
+      "电子荷质比",
+      "荷质比",
+      "磁聚焦"
+    ],
+    "recipe": "references/experiments/electron-beam.md"
+  },
+  {
+    "number": "03",
+    "id": "magnetic-field",
+    "title": "磁场测量",
+    "folder": "03_磁场测量",
+    "aliases": [
+      "磁场测量",
+      "磁场的测量",
+      "霍尔效应",
+      "霍尔法测磁场",
+      "亥姆霍兹线圈",
+      "赫姆霍兹"
+    ],
+    "recipe": "references/experiments/magnetic-field.md"
+  },
+  {
+    "number": "04",
+    "id": "hysteresis",
+    "title": "磁滞回线",
+    "folder": "04_磁滞回线",
+    "aliases": [
+      "磁滞回线",
+      "磁化曲线",
+      "铁磁材料",
+      "居里温度"
+    ],
+    "recipe": "references/experiments/hysteresis.md"
+  },
+  {
+    "number": "05",
+    "id": "standing-waves",
+    "title": "驻波实验",
+    "folder": "05_驻波实验",
+    "aliases": [
+      "驻波",
+      "弦上驻波",
+      "声速测量",
+      "超声声速"
+    ],
+    "recipe": "references/experiments/standing-waves.md"
+  },
+  {
+    "number": "06",
+    "id": "air-track",
+    "title": "气垫导轨",
+    "folder": "06_气垫导轨",
+    "aliases": [
+      "气垫导轨",
+      "气轨",
+      "气轨实验",
+      "弹簧振子",
+      "瞬时速度"
+    ],
+    "recipe": "references/experiments/air-track.md"
+  },
+  {
+    "number": "07",
+    "id": "young-modulus",
+    "title": "杨氏模量",
+    "folder": "07_杨氏模量",
+    "aliases": [
+      "杨氏模量",
+      "杨氏模量与微小量",
+      "光杠杆",
+      "霍尔位置传感器",
+      "动态悬挂"
+    ],
+    "recipe": "references/experiments/young-modulus.md"
+  },
+  {
+    "number": "08",
+    "id": "spectrometer",
+    "title": "分光仪器",
+    "folder": "08_分光仪器",
+    "aliases": [
+      "分光仪器",
+      "分光计",
+      "三棱镜",
+      "最小偏向角",
+      "光栅测波长"
+    ],
+    "recipe": "references/experiments/spectrometer.md"
+  },
+  {
+    "number": "09",
+    "id": "polarization-optics",
+    "title": "光路偏振",
+    "folder": "09_光路偏振",
+    "aliases": [
+      "光路偏振",
+      "偏振",
+      "马吕斯定律",
+      "激光和光学基本操作",
+      "M-Z干涉仪",
+      "光纤耦合"
+    ],
+    "recipe": "references/experiments/polarization-optics.md"
+  },
+  {
+    "number": "10",
+    "id": "fourier-optics",
+    "title": "傅里叶光学",
+    "folder": "10_傅里叶光学",
+    "aliases": [
+      "傅里叶光学",
+      "傅里叶初步",
+      "阿贝成像",
+      "4F",
+      "空间滤波",
+      "假彩色"
+    ],
+    "recipe": "references/experiments/fourier-optics.md"
+  },
+  {
+    "number": "11",
+    "id": "rlc",
+    "title": "RLC电路谐振",
+    "folder": "11_RLC电路谐振",
+    "aliases": [
+      "RLC",
+      "RLC电路",
+      "电路谐振",
+      "谐振与暂态",
+      "RLC暂态"
+    ],
+    "recipe": "references/experiments/rlc.md"
+  },
+  {
+    "number": "12",
+    "id": "virtual-instruments",
+    "title": "虚拟仪器",
+    "folder": "12_虚拟仪器",
+    "aliases": [
+      "虚拟仪器",
+      "LabVIEW",
+      "NI ELVIS"
+    ],
+    "recipe": "references/experiments/virtual-instruments.md"
+  },
+  {
+    "number": "13",
+    "id": "temperature",
+    "title": "温度测量",
+    "folder": "13_温度测量",
+    "aliases": [
+      "温度测量",
+      "温度与热导率",
+      "热导率",
+      "热电偶",
+      "热敏电阻",
+      "温度计设计"
+    ],
+    "recipe": "references/experiments/temperature.md"
+  },
+  {
+    "number": "14",
+    "id": "photovoltaic",
+    "title": "光电探测",
+    "folder": "14_光电探测",
+    "aliases": [
+      "光电探测",
+      "硅光电池",
+      "硅光电池特性",
+      "光伏",
+      "光电池"
+    ],
+    "recipe": "references/experiments/photovoltaic.md"
+  }
+]

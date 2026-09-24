@@ -1,0 +1,33 @@
+% Compact UCAS report layout, inspired by the course template of
+% Shing-Ho Lin and Jun-Xiong Ji (2022). This adaptation is not a new official template.
+% Uses installed TeX Fandol fonts; no private/proprietary font copies required.
+\documentclass[UTF8,11pt,fontset=fandol]{ctexart}
+\usepackage[a4paper,margin=2cm,top=2.2cm,bottom=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,graphicx,booktabs,longtable,tabularx,float}
+\usepackage[hidelinks]{hyperref}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.25em}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\emergencystretch}{2em}
+\renewcommand{\arraystretch}{1.18}
+\newcommand{\Result}[1]{\csname result@#1\endcsname}
+\newcommand{\ResultUncertainty}[1]{\csname uncertainty@#1\endcsname}
+\input{generated/values.tex}
+\begin{document}
+\pagestyle{plain}
+\begin{center}
+{\LARGE\bfseries 《基础物理实验》实验报告}\\[0.8em]
+{\large\bfseries @@EXPERIMENT@@}\\[0.5em]
+\begin{tabularx}{\textwidth}{@{}X X@{}}
+姓名：@@STUDENT_NAME@@ & 学号：@@STUDENT_ID@@\\
+分班分组：@@GROUP@@ \quad 座号：@@SEAT@@ & 指导教师：@@TEACHER@@\\
+实验日期：@@DATE@@ & 实验地点：@@ROOM@@
+\end{tabularx}
+\par\smallskip\hrule
+\end{center}
+@@STATUS@@
+\input{content.tex}
+\clearpage
+\appendix
+\input{generated/appendix.tex}
+\end{document}

@@ -4,6 +4,10 @@ __pycache__/
 *.pyo
 *.pyd
 .venv/
+.venv-skill/
+*.local.json
+.build/
+.review/
 env/
 venv/
 .env
