@@ -1,0 +1,6 @@
+numpy>=1.24
+scipy>=1.10
+matplotlib>=3.7
+pypdf>=4
+pypdfium2>=4
+Pillow>=10

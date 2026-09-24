@@ -1,0 +1,25 @@
+name: Codex skill checks
+
+on:
+  push:
+    paths: ["skills/**", "scripts/**", "tests_skill/**", ".github/workflows/skill-checks.yml"]
+  pull_request:
+    paths: ["skills/**", "scripts/**", "tests_skill/**", ".github/workflows/skill-checks.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  behavior:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install numpy pypdf pypdfium2 pillow
+      - run: python -X utf8 -m unittest discover -s tests_skill -v
+      - run: python -X utf8 scripts/package_skill.py
